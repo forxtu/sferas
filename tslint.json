@@ -4,6 +4,18 @@
   "rules": {
     "prettier": true,
     "interface-name": false,
-    "trailing-comma": false
+    "trailing-comma": false,
+    "jsx-boolean-value": false,
+    "no-any": true,
+    "no-unsafe-any": true,
+    "typedef": [
+      true,
+      "call-signature",
+      "parameter",
+      "arrow-call-signature",
+      "arrow-parameter",
+      "member-variable-declaration",
+      "property-declaration"
+    ]
   }
 }
