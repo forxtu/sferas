@@ -8,6 +8,7 @@
     "jsx-boolean-value": false,
     "no-any": true,
     "no-unsafe-any": true,
+    "no-empty": false,
     "typedef": [
       true,
       "call-signature",

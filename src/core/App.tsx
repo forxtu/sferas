@@ -1,10 +1,17 @@
 import React from 'react';
 
-// Components
+// Routes
 import RoutesWrapper from 'routes/RoutesWrapper';
 
+// Styles
+import ThemeProvider from 'styles/ThemeContext';
+
 const App = () => {
-  return <RoutesWrapper />;
+  return (
+    <ThemeProvider>
+      <RoutesWrapper />
+    </ThemeProvider>
+  );
 };
 
 export default App;
