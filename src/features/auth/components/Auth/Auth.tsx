@@ -1,13 +1,13 @@
 import React from 'react';
 
 // Hooks
-import useAuthInfo from 'features/auth/hooks/useAuthInfo';
+import useAuth from 'features/auth/hooks/useAuth';
 
 // Types
 import type { ReactElement } from 'react';
 
 const Auth = (): ReactElement => {
-  const { userAuthInfo, setUserAuthInfoHandler, logIn, signUp } = useAuthInfo();
+  const { userAuthInfo, handleSetUserAuthInfo, logIn, signUp } = useAuth();
 
   return (
     <div>
@@ -15,7 +15,7 @@ const Auth = (): ReactElement => {
         <div>
           <input
             value={userAuthInfo.email}
-            onChange={setUserAuthInfoHandler}
+            onChange={handleSetUserAuthInfo}
             type="email"
             name="email"
             id="exampleInputEmail1"
@@ -29,7 +29,7 @@ const Auth = (): ReactElement => {
         <div>
           <input
             value={userAuthInfo.password}
-            onChange={setUserAuthInfoHandler}
+            onChange={handleSetUserAuthInfo}
             type="password"
             name="password"
             id="exampleInputPassword1"

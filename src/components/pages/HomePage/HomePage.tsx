@@ -4,7 +4,7 @@ import React from 'react';
 import Button from 'components/elements/Button';
 
 // Hooks
-import useAuthInfo from 'features/auth/hooks/useAuthInfo';
+import useAuth from 'features/auth/hooks/useAuth';
 
 // Styles
 import { useTheme } from 'styles/ThemeContext';
@@ -14,7 +14,7 @@ import type { ReactElement } from 'react';
 
 const HomePage = (): ReactElement => {
   const { toggle } = useTheme();
-  const { logOut } = useAuthInfo();
+  const { logOut } = useAuth();
 
   return (
     <div>

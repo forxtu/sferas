@@ -1,5 +1,11 @@
 import firebase from 'firebase';
 
+// Types
+import type { User, auth } from 'firebase';
+
+type UserCredential = auth.UserCredential;
+type OptionalUser = User | null;
+
 const firebaseConfig = {
   apiKey: 'AIzaSyAYIWhRIt--L0jP3nPebqXyrcNAIEajX6U',
   authDomain: 'forxtu-apps.firebaseapp.com',
@@ -13,6 +19,10 @@ const firebaseConfig = {
 
 const authConfig = firebase.initializeApp(firebaseConfig);
 
-export const db = authConfig.firestore();
+const db = authConfig.firestore();
+
+export type { OptionalUser, User, UserCredential };
+
+export { db };
 
 export default authConfig;

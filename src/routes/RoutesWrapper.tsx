@@ -8,7 +8,7 @@ import {
 
 // Components
 import Home from 'components/pages/HomePage';
-import Auth from 'features/auth/components';
+import Auth from 'features/auth/components/Auth';
 
 // Types
 import type { ReactElement } from 'react';
