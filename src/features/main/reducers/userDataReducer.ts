@@ -10,13 +10,17 @@ import type { RootState } from 'store/configureStore';
 type UserDataState = {
   email: string;
   userId: string;
-  accountCreated: string;
+  accountCreationTime: string;
+  docId: string;
 };
+
+type UserDataStateDb = Omit<UserDataState, 'docId'>;
 
 const initialState: UserDataState = {
   email: '',
   userId: '',
-  accountCreated: ''
+  accountCreationTime: '',
+  docId: ''
 };
 
 const userDataReducer = (
@@ -40,6 +44,6 @@ export const getUserDataSelector = createSelector(
   (userDataReducer: UserDataState): UserDataState => userDataReducer
 );
 
-export type { UserDataState };
+export type { UserDataState, UserDataStateDb };
 
 export default userDataReducer;

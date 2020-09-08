@@ -2,7 +2,11 @@ import * as TYPES from './types';
 import * as MESSAGES from './messages';
 
 // Types
-import type { AppDataState } from 'features/main/reducers/appDataReducer';
+import type {
+  AppDataState,
+  Goal,
+  Sphere
+} from 'features/main/reducers/appDataReducer';
 import type { UserDataState } from 'features/main/reducers/userDataReducer';
 
 // App data types
@@ -11,7 +15,27 @@ type SetAppData = {
   data: AppDataState;
 };
 
-type AppDataActions = SetAppData;
+type AddGoalPayload = {
+  sphereId: string;
+  goal: Goal;
+};
+
+type AddGoal = {
+  type: TYPES.ADD_GOAL;
+  payload: AddGoalPayload;
+};
+
+type RemoveGoalPayload = {
+  goalId: string;
+  sphere: Sphere;
+};
+
+type RemoveGoal = {
+  type: TYPES.REMOVE_GOAL;
+  payload: RemoveGoalPayload;
+};
+
+type AppDataActions = SetAppData | AddGoal | RemoveGoal;
 
 // User data types
 type SetUserData = {
@@ -27,12 +51,22 @@ const setAppData = (data: AppDataState): SetAppData => ({
   data
 });
 
+const addGoal = ({ sphereId, goal }: AddGoalPayload): AddGoal => ({
+  type: MESSAGES.ADD_GOAL,
+  payload: { sphereId, goal }
+});
+
+const removeGoal = ({ goalId, sphere }: RemoveGoalPayload): RemoveGoal => ({
+  type: MESSAGES.REMOVE_GOAL,
+  payload: { goalId, sphere }
+});
+
 // User data actions
 const setUserData = (userData: UserDataState): SetUserData => ({
   type: MESSAGES.SET_USER_DATA,
   userData
 });
 
-export type { AppDataActions, UserDataActions };
+export type { AppDataActions, UserDataActions, AddGoalPayload };
 
-export { setAppData, setUserData };
+export { setAppData, addGoal, removeGoal, setUserData };

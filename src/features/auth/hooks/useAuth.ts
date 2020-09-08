@@ -6,12 +6,14 @@ import useLocalStorage from 'hooks/useLocalStorage';
 
 // Redux
 import fetchInitialData from 'features/main/thunks/fetchInitialData';
+import { initialState as initialAppDataState } from 'features/main/reducers/appDataReducer';
 
 // Utils
 import authConfig, { db } from 'config/firebase';
 
 // Types
-import type { OptionalUser, UserCredential } from 'config/firebase';
+import type { OptionalUser } from 'config/firebase';
+import type { UserDataStateDb } from 'features/main/reducers/userDataReducer';
 
 type UserAuthInfo = {
   email: string;
@@ -45,44 +47,56 @@ const useAuth = (): AuthInfo => {
     });
   };
 
-  const logIn = (e: any): void => {
+  const logIn = async (e: Event): Promise<void> => {
     e.preventDefault();
 
-    authConfig
-      .auth()
-      .signInWithEmailAndPassword(userAuthInfo.email, userAuthInfo.password)
-      .then((u: UserCredential): void => {})
-      .catch((error: string): never => {
-        throw new Error(`Log in error: ${error}`);
-      });
+    try {
+      await authConfig
+        .auth()
+        .signInWithEmailAndPassword(userAuthInfo.email, userAuthInfo.password);
+    } catch (error) {
+      throw new Error(`Log in error: ${error}`);
+    }
   };
 
-  const signUp = (e: any): void => {
+  const signUp = async (e: Event): Promise<void> => {
     e.preventDefault();
-    authConfig
-      .auth()
-      .createUserWithEmailAndPassword(userAuthInfo.email, userAuthInfo.password)
-      .then((u: UserCredential): void => {
-        const userData = {
-          email: userAuthInfo.email,
-          userId: u?.user?.uid || '',
-          accountCreated: u?.user?.metadata.creationTime || ''
-        };
+    const usersCollection = db.collection('users');
 
-        db.collection('users').add({
-          userData,
-          appData: {
-            globalGoals: []
-          }
-        });
-      })
-      .catch((error: string): never => {
-        throw new Error(`Sign up error: ${error}`);
+    try {
+      const newUserData = await authConfig
+        .auth()
+        .createUserWithEmailAndPassword(
+          userAuthInfo.email,
+          userAuthInfo.password
+        );
+
+      const userId = newUserData?.user?.uid || '';
+      const accountCreationTime =
+        newUserData?.user?.metadata.creationTime || '';
+      const { email } = userAuthInfo;
+
+      const userData: UserDataStateDb = {
+        email,
+        userId,
+        accountCreationTime
+      };
+
+      await usersCollection.add({
+        userData,
+        appData: initialAppDataState
       });
+    } catch (error) {
+      throw new Error(`Sign up error: ${error}`);
+    }
   };
 
   const logOut = (): void => {
-    authConfig.auth().signOut();
+    try {
+      authConfig.auth().signOut();
+    } catch (error) {
+      throw new Error(`Sign up error: ${error}`);
+    }
   };
 
   const authListener = (): void => {

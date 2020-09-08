@@ -5,6 +5,10 @@ import type { User, auth } from 'firebase';
 
 type UserCredential = auth.UserCredential;
 type OptionalUser = User | null;
+type FireStoreDoc = firebase.firestore.DocumentData;
+type FireStoreCollection = firebase.firestore.CollectionReference<
+  firebase.firestore.DocumentData
+>;
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAYIWhRIt--L0jP3nPebqXyrcNAIEajX6U',
@@ -21,7 +25,13 @@ const authConfig = firebase.initializeApp(firebaseConfig);
 
 const db = authConfig.firestore();
 
-export type { OptionalUser, User, UserCredential };
+export type {
+  OptionalUser,
+  User,
+  UserCredential,
+  FireStoreDoc,
+  FireStoreCollection
+};
 
 export { db };
 

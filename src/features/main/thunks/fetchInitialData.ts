@@ -6,22 +6,34 @@ import { db } from 'config/firebase';
 
 // Types
 import type { Dispatch } from 'redux';
-import type { AppDataState } from 'features/main/reducers/appDataReducer';
-import type { UserDataState } from 'features/main/reducers/userDataReducer';
+import type { FireStoreDoc } from 'config/firebase';
 
-const fetchInitialData = (userId: string): any => {
-  return (dispatch: Dispatch): any => {
-    db.collection('users')
-      .where('userData.userId', '==', userId)
-      .get()
-      .then((snapshot) => {
-        const appData: AppDataState = snapshot.docs[0].data().appData;
-        const userData: UserDataState = snapshot.docs[0].data().userData;
+type FetchInitialData = (dispatch: Dispatch) => Promise<void>;
 
-        dispatch(setAppData(appData));
-        dispatch(setUserData(userData));
-      });
-  };
+const fetchInitialData = (userId: string): FetchInitialData => async (
+  dispatch: Dispatch
+): Promise<void> => {
+  const usersCollection = db.collection('users');
+
+  const usersSnapshot = await usersCollection.get();
+  let docData: FireStoreDoc = {};
+
+  usersSnapshot.forEach((doc: FireStoreDoc): void => {
+    if (doc.data().userData.userId === userId) {
+      docData = {
+        ...doc.data(),
+        userData: {
+          ...doc.data().userData,
+          docId: doc.id
+        }
+      };
+    }
+  });
+
+  const { appData, userData } = docData!;
+
+  dispatch(setAppData(appData));
+  dispatch(setUserData(userData));
 };
 
 export default fetchInitialData;

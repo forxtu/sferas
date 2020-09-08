@@ -8,12 +8,12 @@ import { getUserDataSelector } from 'features/main/reducers/userDataReducer';
 // Types
 import type { UserDataState } from 'features/main/reducers/userDataReducer';
 
-type UseUserata = {
+type UseUserData = {
   userData: UserDataState;
   // handleSetUserData: (data: UserDataState) => void;
 };
 
-const useUserData = (): UseUserata => {
+const useUserData = (): UseUserData => {
   // const dispatch = useDispatch();
   const userData = useSelector(getUserDataSelector);
 
