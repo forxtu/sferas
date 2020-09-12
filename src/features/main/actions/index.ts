@@ -35,7 +35,18 @@ type RemoveGoal = {
   payload: RemoveGoalPayload;
 };
 
-type AppDataActions = SetAppData | AddGoal | RemoveGoal;
+type EditGoalPayload = {
+  goalId: string;
+  goalValue: string;
+  sphere: Sphere;
+};
+
+type EditGoal = {
+  type: TYPES.EDIT_GOAL;
+  payload: EditGoalPayload;
+};
+
+type AppDataActions = SetAppData | AddGoal | RemoveGoal | EditGoal;
 
 // User data types
 type SetUserData = {
@@ -61,6 +72,15 @@ const removeGoal = ({ goalId, sphere }: RemoveGoalPayload): RemoveGoal => ({
   payload: { goalId, sphere }
 });
 
+const editGoal = ({
+  goalId,
+  sphere,
+  goalValue
+}: EditGoalPayload): EditGoal => ({
+  type: MESSAGES.EDIT_GOAL,
+  payload: { goalId, sphere, goalValue }
+});
+
 // User data actions
 const setUserData = (userData: UserDataState): SetUserData => ({
   type: MESSAGES.SET_USER_DATA,
@@ -69,4 +89,4 @@ const setUserData = (userData: UserDataState): SetUserData => ({
 
 export type { AppDataActions, UserDataActions, AddGoalPayload };
 
-export { setAppData, addGoal, removeGoal, setUserData };
+export { setAppData, addGoal, removeGoal, editGoal, setUserData };

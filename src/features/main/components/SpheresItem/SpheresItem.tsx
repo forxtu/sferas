@@ -2,6 +2,7 @@ import React, { useCallback, Fragment } from 'react';
 
 // Components
 import AddGoal from 'features/main/components/AddGoal';
+import EditGoal from 'features/main/components/EditGoal';
 
 // Hooks
 import useAppData from 'features/main/hooks/useAppData';
@@ -24,15 +25,27 @@ const SpheresItem = ({ sphere }: SpheresItem): ReactElement => {
   };
 
   return (
-    <div>
+    <div style={{ background: 'lightgray', padding: '20px' }}>
       <h3>{sphere.title}</h3>
       <AddGoal sphere={sphere} />
-      {sphere.goals.map((goal: Goal): any => (
-        <Fragment key={goal.goalId}>
-          <p>{goal.title}</p>
-          <button onClick={(): void => removeGoal(goal.goalId)}>Remove</button>
-        </Fragment>
-      ))}
+      {sphere.goals.map(
+        (goal: Goal): ReactElement => (
+          <div
+            key={goal.goalId}
+            style={{
+              background: 'lightgreen',
+              padding: '20px',
+              marginTop: '10px'
+            }}
+          >
+            <p>{goal.title}</p>
+            <button onClick={(): void => removeGoal(goal.goalId)}>
+              Remove
+            </button>
+            <EditGoal goal={goal} sphere={sphere} />
+          </div>
+        )
+      )}
     </div>
   );
 };

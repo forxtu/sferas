@@ -1,30 +1,27 @@
-// import { useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 // Redux
 import { getUserDataSelector } from 'features/main/reducers/userDataReducer';
-// import { setUserData } from 'features/userData/actions';
+
+// Utils
+import { getParticularUser } from 'utils/firestore';
 
 // Types
 import type { UserDataState } from 'features/main/reducers/userDataReducer';
+import { FireStoreDoc } from 'config/firebase';
 
 type UseUserData = {
   userData: UserDataState;
-  // handleSetUserData: (data: UserDataState) => void;
+  fireStoreUser: any;
+  // fireStoreUser: FireStoreDoc;
 };
 
 const useUserData = (): UseUserData => {
-  // const dispatch = useDispatch();
   const userData = useSelector(getUserDataSelector);
+  const fireStoreUser =
+    userData.userId !== '' && getParticularUser(userData.docId);
 
-  // const handleSetUserData = useCallback(
-  //   (data: UserDataState): void => {
-  //     dispatch(setUserData(data));
-  //   },
-  //   [dispatch]
-  // );
-
-  return { userData };
+  return { userData, fireStoreUser };
 };
 
 export default useUserData;

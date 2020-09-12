@@ -125,6 +125,19 @@ const appDataReducer = (
         })
       };
     }
+    case MESSAGES.EDIT_GOAL: {
+      const { goalId, sphere, goalValue } = action.payload;
+
+      const goal = sphere.goals.find(
+        (goal: Goal): boolean => goal.goalId === goalId
+      );
+
+      goal.title = goalValue;
+
+      return {
+        ...state
+      };
+    }
     default: {
       return state;
     }
@@ -132,12 +145,14 @@ const appDataReducer = (
 };
 
 // Selectors
-const getAppData = (state: RootState): AppDataState => state.appDataReducer;
+const selectAppDataReducer = (state: RootState): AppDataState =>
+  state.appDataReducer;
+
 const selectSpheres = (state: RootState): Sphere[] =>
   state.appDataReducer.spheres;
 
 const selectAppData = createSelector(
-  getAppData,
+  selectAppDataReducer,
   (appDataReducer: AppDataState): AppDataState => appDataReducer
 );
 

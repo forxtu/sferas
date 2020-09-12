@@ -7,13 +7,12 @@ import {
   selectAppData,
   selectSphereById
 } from 'features/main/reducers/appDataReducer';
-import { addGoal, removeGoal } from 'features/main/actions';
+import { addGoal, removeGoal, editGoal } from 'features/main/actions';
 
 // Hooks
 import useUserData from 'features/main/hooks/useUserData';
 
 // Utils
-import { getParticularUser } from 'utils/firestore';
 import { replaceSphereInSpheres } from 'utils/helpers';
 
 // Types
@@ -29,33 +28,37 @@ type RemoveGoalArgs = {
   goalId: string;
 };
 
+type EditGoalArgs = {
+  sphereId: string;
+  goalId: string;
+  goalValue: string;
+};
+
 type UseAppData = {
   appData: AppDataState;
   spheres: Sphere[];
   handleAddGoal: ({ sphereId, goal }: AddGoalPayload) => void;
   handleRemoveGoal: ({ sphereId, goalId }: RemoveGoalArgs) => void;
+  handleEditGoal: ({ sphereId, goalId, goalValue }: EditGoalArgs) => void;
 };
 
 const useAppData = (): UseAppData => {
   const dispatch = useDispatch();
-  const { userData } = useUserData();
+  const { fireStoreUser } = useUserData();
   const appData = useSelector(selectAppData);
   const getSphere = useSelector(selectSphereById);
 
   const { spheres } = appData;
 
   const handleAddGoal = ({ sphereId, goal }: AddGoalPayload): void => {
-    const user = getParticularUser(userData.docId);
-
     dispatch(addGoal({ sphereId, goal }));
 
-    user.update({
+    fireStoreUser.update({
       'appData.spheres': spheres
     });
   };
 
   const handleRemoveGoal = ({ sphereId, goalId }: RemoveGoalArgs): void => {
-    const user = getParticularUser(userData.docId);
     // Get particular sphere by ID
     const sphere = getSphere(sphereId)!;
 
@@ -65,7 +68,7 @@ const useAppData = (): UseAppData => {
       (goal: Goal): boolean => goal.goalId !== goalId
     );
 
-    user.update({
+    fireStoreUser.update({
       'appData.spheres': replaceSphereInSpheres(spheres, {
         ...sphere,
         goals: updatedGoals
@@ -73,7 +76,21 @@ const useAppData = (): UseAppData => {
     });
   };
 
-  return { appData, spheres, handleAddGoal, handleRemoveGoal };
+  const handleEditGoal = ({
+    sphereId,
+    goalId,
+    goalValue
+  }: EditGoalArgs): void => {
+    const sphere = getSphere(sphereId)!;
+
+    dispatch(editGoal({ sphere, goalId, goalValue }));
+
+    fireStoreUser.update({
+      'appData.spheres': spheres
+    });
+  };
+
+  return { appData, spheres, handleAddGoal, handleRemoveGoal, handleEditGoal };
 };
 
 export default useAppData;
