@@ -8,6 +8,7 @@ import useAuth from 'features/auth/hooks/useAuth';
 
 // Styles
 import ThemeProvider from 'styles/ThemeContext';
+import 'antd/dist/antd.css';
 
 // Types
 import type { ReactElement } from 'react';

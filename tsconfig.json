@@ -6,7 +6,11 @@
       }
     ],
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -21,6 +25,8 @@
     "jsx": "react",
     "noImplicitAny": true
   },
-  "include": ["src"],
+  "include": [
+    "src"
+  ],
   "extends": "./tsconfig.paths.json"
 }

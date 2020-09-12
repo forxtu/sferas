@@ -1,8 +1,8 @@
-import React, { useCallback, Fragment } from 'react';
+import React from 'react';
 
 // Components
 import AddGoal from 'features/main/components/AddGoal';
-import EditGoal from 'features/main/components/EditGoal';
+import GoalItem from 'features/main/components/GoalItem';
 
 // Hooks
 import useAppData from 'features/main/hooks/useAppData';
@@ -16,34 +16,13 @@ type SpheresItem = {
 };
 
 const SpheresItem = ({ sphere }: SpheresItem): ReactElement => {
-  const { handleRemoveGoal } = useAppData();
-
-  const { sphereId } = sphere;
-
-  const removeGoal = (goalId: string): void => {
-    handleRemoveGoal({ sphereId, goalId });
-  };
-
   return (
     <div style={{ background: 'lightgray', padding: '20px' }}>
       <h3>{sphere.title}</h3>
       <AddGoal sphere={sphere} />
       {sphere.goals.map(
         (goal: Goal): ReactElement => (
-          <div
-            key={goal.goalId}
-            style={{
-              background: 'lightgreen',
-              padding: '20px',
-              marginTop: '10px'
-            }}
-          >
-            <p>{goal.title}</p>
-            <button onClick={(): void => removeGoal(goal.goalId)}>
-              Remove
-            </button>
-            <EditGoal goal={goal} sphere={sphere} />
-          </div>
+          <GoalItem key={goal.goalId} goal={goal} sphere={sphere} />
         )
       )}
     </div>
