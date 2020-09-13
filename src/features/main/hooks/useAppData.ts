@@ -5,7 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 // Redux
 import {
   selectAppData,
-  selectSphereById
+  selectSphereById,
+  selectSphereByTitle
 } from 'features/main/reducers/appDataReducer';
 import { addGoal, removeGoal, editGoal } from 'features/main/actions';
 
@@ -40,13 +41,16 @@ type UseAppData = {
   handleAddGoal: ({ sphereId, goal }: AddGoalPayload) => void;
   handleRemoveGoal: ({ sphereId, goalId }: RemoveGoalArgs) => void;
   handleEditGoal: ({ sphereId, goalId, goalValue }: EditGoalArgs) => void;
+  getSphereById: (sphereId: string) => Sphere | undefined;
+  getSphereByTitle: (sphereTitle: string) => Sphere | undefined;
 };
 
 const useAppData = (): UseAppData => {
   const dispatch = useDispatch();
   const { fireStoreUser } = useUserData();
   const appData = useSelector(selectAppData);
-  const getSphere = useSelector(selectSphereById);
+  const getSphereById = useSelector(selectSphereById);
+  const getSphereByTitle = useSelector(selectSphereByTitle);
 
   const { spheres } = appData;
 
@@ -60,7 +64,7 @@ const useAppData = (): UseAppData => {
 
   const handleRemoveGoal = ({ sphereId, goalId }: RemoveGoalArgs): void => {
     // Get particular sphere by ID
-    const sphere = getSphere(sphereId)!;
+    const sphere = getSphereById(sphereId)!;
 
     dispatch(removeGoal({ goalId, sphere }));
 
@@ -81,7 +85,7 @@ const useAppData = (): UseAppData => {
     goalId,
     goalValue
   }: EditGoalArgs): void => {
-    const sphere = getSphere(sphereId)!;
+    const sphere = getSphereById(sphereId)!;
 
     dispatch(editGoal({ sphere, goalId, goalValue }));
 
@@ -90,7 +94,15 @@ const useAppData = (): UseAppData => {
     });
   };
 
-  return { appData, spheres, handleAddGoal, handleRemoveGoal, handleEditGoal };
+  return {
+    appData,
+    spheres,
+    getSphereById,
+    getSphereByTitle,
+    handleAddGoal,
+    handleRemoveGoal,
+    handleEditGoal
+  };
 };
 
 export default useAppData;

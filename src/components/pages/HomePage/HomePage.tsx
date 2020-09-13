@@ -1,29 +1,17 @@
 import React from 'react';
 
 // Components
-import Button from 'components/elements/Button';
 import SpheresList from 'features/main/components/SpheresList';
-
-// Hooks
-import useAuth from 'features/auth/hooks/useAuth';
-
-// Styles
-import { useTheme } from 'styles/ThemeContext';
+import MainLayout from 'components/layouts/MainLayout';
 
 // Types
 import type { ReactElement } from 'react';
 
 const HomePage = (): ReactElement => {
-  const { toggle } = useTheme();
-  const { logOut } = useAuth();
-
   return (
-    <div>
-      <h1>Home page</h1>
-      <Button onClick={toggle}>Change theme</Button>
-      <Button onClick={logOut}>Log out</Button>
+    <MainLayout>
       <SpheresList />
-    </div>
+    </MainLayout>
   );
 };
 

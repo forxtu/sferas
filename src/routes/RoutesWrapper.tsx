@@ -8,12 +8,13 @@ import {
 
 // Components
 import Home from 'components/pages/HomePage';
+import SpherePage from 'components/pages/SpherePage';
 import Auth from 'features/auth/components/Auth';
 
 // Types
 import type { ReactElement } from 'react';
 
-type RoutePath = '/' | '/auth';
+type RoutePath = '/' | '/auth' | '/sphere/:sphereId';
 
 type RouteType = {
   path: RoutePath;
@@ -30,12 +31,24 @@ type PrivateRouteType = {
 
 const HomePagePath: RoutePath = '/';
 const AuthPagePath: RoutePath = '/auth';
+const SpherePagePath: RoutePath = '/sphere/:sphereId';
+
+const RouteUrl = {
+  HomePagePath,
+  AuthPagePath,
+  SpherePagePath
+};
 
 const routes: RouteType[] = [
   {
     path: HomePagePath,
     exact: true,
     component: Home
+  },
+  {
+    path: SpherePagePath,
+    exact: true,
+    component: SpherePage
   }
 ];
 
@@ -86,5 +99,7 @@ const RoutesWrapper = ({ user }: { user: string }): ReactElement => (
     </Switch>
   </Router>
 );
+
+export { RouteUrl };
 
 export default RoutesWrapper;

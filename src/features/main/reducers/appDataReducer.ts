@@ -164,8 +164,18 @@ const selectSphereById = createSelector(selectSpheres, (spheres: Sphere[]): ((
   )
 );
 
+const selectSphereByTitle = createSelector(
+  selectSpheres,
+  (spheres: Sphere[]): ((sphereId: string) => Sphere | undefined) => (
+    sphereTitle: string
+  ): Sphere | undefined =>
+    spheres.find(
+      (sphereItem: Sphere): boolean => sphereItem.title === sphereTitle
+    )
+);
+
 export type { AppDataState, Sphere, Goal, GoalType };
 
-export { initialState, selectAppData, selectSphereById };
+export { initialState, selectAppData, selectSphereById, selectSphereByTitle };
 
 export default appDataReducer;
