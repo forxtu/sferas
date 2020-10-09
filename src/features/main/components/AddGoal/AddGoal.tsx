@@ -1,5 +1,9 @@
 import React, { useState, useCallback } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import { Input } from 'antd';
+import { PlusCircleOutlined } from '@ant-design/icons';
+
+// Components
+import Button from 'components/elements/Button';
 
 // Hooks
 import useAppData from 'features/main/hooks/useAppData';
@@ -14,15 +18,27 @@ import type {
 
 type AddGoal = {
   sphere: Sphere;
+  goalType: GoalType;
 };
 
-const AddGoal = ({ sphere: { sphereId } }: AddGoal) => {
+const AddGoal = ({ sphere: { sphereId }, goalType }: AddGoal) => {
   const { handleAddGoal } = useAppData();
+
+  const [isEditView, setIsEditView] = useState(false);
   const [goal, setGoal] = useState<Goal>({
     title: '',
-    type: 'global',
+    type: goalType,
     goalId: ''
   });
+
+  const handleSetIsEditView = (): void => {
+    setIsEditView(!isEditView);
+
+    setGoal({
+      ...goal,
+      title: ''
+    });
+  };
 
   const handleSetGoal = (e: ChangeEvent): void => {
     e.preventDefault();
@@ -33,45 +49,29 @@ const AddGoal = ({ sphere: { sphereId } }: AddGoal) => {
     });
   };
 
-  const handleSetGoalType = (e: ChangeEvent): void => {
-    e.preventDefault();
-
-    setGoal({
-      ...goal,
-      type: (e.target as HTMLInputElement).value as GoalType
-    });
-  };
-
   const addGoal = useCallback((): void => {
-    handleAddGoal({ sphereId, goal });
+    if (goal.title !== '') {
+      handleAddGoal({ sphereId, goal });
+
+      setGoal({
+        ...goal,
+        title: ''
+      });
+    }
   }, [goal.type, goal.title]);
 
-  return (
+  return isEditView ? (
     <div>
-      <div>
-        <input
-          value={goal.title}
-          onChange={handleSetGoal}
-          type="text"
-          name="goal"
-          placeholder="Set your goal"
-        />
-        <select
-          value={goal.type}
-          onChange={handleSetGoalType}
-          name="goaltype"
-          placeholder="Set your goal type"
-        >
-          <option value="global" defaultChecked>
-            Global
-          </option>
-          <option value="week">Week</option>
-        </select>
-      </div>
-      <button type="button" onClick={addGoal}>
-        Add goal
-      </button>
+      <Input
+        value={goal.title}
+        onChange={handleSetGoal}
+        placeholder="Set your goal"
+      />
+      <Button onClick={addGoal}>Add goal</Button>
+      <Button onClick={handleSetIsEditView}>Cancel</Button>
     </div>
+  ) : (
+    <Button onClick={handleSetIsEditView} icon={<PlusCircleOutlined />} />
   );
 };
 

@@ -3,6 +3,7 @@ import { Redirect, useLocation } from 'react-router-dom';
 
 // Components
 import MainLayout from 'components/layouts/MainLayout';
+import { Title } from 'components/elements/Typography';
 import AddGoal from 'features/main/components/AddGoal';
 import GoalItem from 'features/main/components/GoalItem';
 
@@ -43,20 +44,21 @@ const SpherePage = (): any => {
   return (
     <MainLayout>
       <div style={{ padding: '20px' }}>
-        <h3>{sphere.title}</h3>
-        <AddGoal sphere={sphere} />
-        <h2>Global goals</h2>
+        <Title level={2}>{sphere.title}</Title>
+        <Title level={3}>Глобальные цели</Title>
         {globalGoals.map(
           (goal: any): ReactElement => (
             <GoalItem key={goal.goalId} goal={goal} sphere={sphere} />
           )
         )}
-        <h2>Week goals</h2>
+        <AddGoal sphere={sphere} goalType="global" />
+        <Title level={3}>Цели на неделю</Title>
         {weekGoals.map(
           (goal: any): ReactElement => (
             <GoalItem key={goal.goalId} goal={goal} sphere={sphere} />
           )
         )}
+        <AddGoal sphere={sphere} goalType="week" />
       </div>
     </MainLayout>
   );

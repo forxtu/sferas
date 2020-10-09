@@ -8,6 +8,7 @@ import useAuth from 'features/auth/hooks/useAuth';
 
 // Styles
 import ThemeProvider from 'styles/ThemeContext';
+import GlobalStyle from 'styles/globalStyles';
 import 'antd/dist/antd.css';
 
 // Types
@@ -18,7 +19,10 @@ const App = (): ReactElement => {
 
   return (
     <ThemeProvider>
-      <RoutesWrapper user={authUser} />
+      <>
+        <GlobalStyle />
+        <RoutesWrapper user={authUser} />
+      </>
     </ThemeProvider>
   );
 };
