@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 import { Typography } from 'antd';
+import { Link } from 'react-router-dom';
+
+// Types
+import type { StyledThemeProps } from 'styled-theme';
 
 const { Text: AntdText, Title: AntdTitle } = Typography;
 
@@ -9,11 +13,26 @@ type TextProps = {
   fontSize?: TextFontSize;
 };
 
+type StyledLinkProps = {} & StyledThemeProps;
+
 // Titles
 const Title = styled(AntdTitle)``;
 
 // Links
 const StyledA = styled.a``;
+const StyledLink = styled(Link)`
+  ${({
+    theme: {
+      link: { color, hoverColor }
+    }
+  }: StyledLinkProps): string => `
+    color: ${color};
+
+    &:hover {
+      color: ${hoverColor};
+    }
+  `}
+`;
 
 // Text
 const Text = styled(AntdText)`
@@ -22,4 +41,4 @@ const Text = styled(AntdText)`
   `}
 `;
 
-export { Title, StyledA, Text };
+export { Title, StyledA, StyledLink, Text };

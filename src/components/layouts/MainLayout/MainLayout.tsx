@@ -1,60 +1,72 @@
-import React, { useState } from 'react';
-import { Layout, Menu } from 'antd';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Layout } from 'antd';
 import { kebabCase } from 'lodash';
+import styled from 'styled-components';
 
 // Components
 import Header from 'components/blocks/Header';
+import CardWrapper from 'components/elements/CardWrapper';
+import { StyledLink } from 'components/elements/Typography';
 
 // Hooks
 import useAppData from 'features/main/hooks/useAppData';
 
+// Styles
+import colors from 'styles/partials/colors';
+import indents from 'styles/partials/indents';
+
 // Types
 import type { ReactElement } from 'react';
+import type { Children } from 'react-typings';
 
-const { Sider, Content } = Layout;
+const { Content } = Layout;
 
 type Props = {
-  children: NonNullable<ReactElement>[] | NonNullable<ReactElement>;
+  children: Children;
 };
+
+const Wrapper = styled.div`
+  display: flex;
+  padding: ${indents.large};
+
+  ${CardWrapper} {
+    height: 100%;
+    width: 250px;
+    padding: ${indents.large};
+
+    ${StyledLink} {
+      display: block;
+
+      &:not(last-child) {
+        margin-bottom: ${indents.small};
+      }
+    }
+  }
+`;
 
 const MainLayout = ({ children }: Props): ReactElement => {
   const { spheres } = useAppData();
 
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
-
-  const handleToggleIsSidebarCollapsed = (): void => {
-    setIsSidebarCollapsed(!isSidebarCollapsed);
-  };
-
   return (
-    <Layout>
-      <Sider
-        style={{ background: '#fff' }}
-        onCollapse={handleToggleIsSidebarCollapsed}
-        collapsible
-        collapsed={isSidebarCollapsed}
-      >
-        <Menu mode="inline" defaultSelectedKeys={['1']}>
+    <>
+      <Header />
+      <Wrapper>
+        <CardWrapper bg={colors.pink100}>
           {spheres.map(({ sphereId, title }: any) => (
-            <Menu.Item key={sphereId}>
-              <Link
-                to={{
-                  pathname: `/sphere/${kebabCase(title)}`,
-                  state: { sphereId }
-                }}
-              >
-                {title}
-              </Link>
-            </Menu.Item>
+            <StyledLink
+              key={sphereId}
+              to={{
+                pathname: `/sphere/${kebabCase(title)}`,
+                state: { sphereId }
+              }}
+            >
+              {title}
+            </StyledLink>
           ))}
-        </Menu>
-      </Sider>
-      <Layout>
-        <Header />
+        </CardWrapper>
         <Content>{children}</Content>
-      </Layout>
-    </Layout>
+      </Wrapper>
+    </>
   );
 };
 
