@@ -6,11 +6,13 @@ import type { StyledTheme } from 'styled-theme';
 
 type Dark = StyledTheme;
 
-const { black800, blackBasic, redBasic } = colors;
+const { black800, whiteBasic, blackBasic, redBasic } = colors;
 
 const dark: Dark = {
   button: {
-    color: 'blue'
+    color: whiteBasic,
+    borderColor: whiteBasic,
+    backgroundColor: black800
   },
   cardWrapper: {
     borderColor: black800

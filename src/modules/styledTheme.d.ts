@@ -8,6 +8,8 @@ declare module 'styled-theme' {
   type StyledTheme = {
     button: {
       color: string;
+      borderColor: string;
+      backgroundColor: string;
     };
     cardWrapper: {
       borderColor: string;

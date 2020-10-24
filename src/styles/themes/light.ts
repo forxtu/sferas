@@ -6,11 +6,13 @@ import type { StyledTheme } from 'styled-theme';
 
 type Light = StyledTheme;
 
-const { black800, blackBasic, blueBasic } = colors;
+const { black800, whiteBasic, blackBasic, blueBasic } = colors;
 
 const light: Light = {
   button: {
-    color: 'red'
+    color: black800,
+    borderColor: black800,
+    backgroundColor: whiteBasic
   },
   cardWrapper: {
     borderColor: black800

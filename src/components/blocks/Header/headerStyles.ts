@@ -1,10 +1,11 @@
 import styled from 'styled-components';
-import { Layout } from 'antd';
 
-const { Header: AntdHeader } = Layout;
+// Styles
+import indents from 'styles/partials/indents';
 
-const Header = styled(AntdHeader)`
+const Header = styled.div`
   background: #fff;
+  padding: ${indents.large};
 `;
 
 export { Header };
