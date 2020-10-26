@@ -17,6 +17,11 @@ const light: Light = {
   cardWrapper: {
     borderColor: black800
   },
+  input: {
+    color: blackBasic,
+    borderColor: blackBasic,
+    backgroundColor: whiteBasic
+  },
   link: {
     color: blackBasic,
     hoverColor: blueBasic

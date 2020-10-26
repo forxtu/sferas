@@ -25,20 +25,23 @@ type Props = {
   children: Children;
 };
 
+const Sidebar = styled.div``;
 const Wrapper = styled.div`
   display: flex;
   padding: ${indents.large};
 
-  ${CardWrapper} {
+  ${Sidebar} {
     height: 100%;
-    width: 250px;
-    padding: ${indents.large};
 
-    ${StyledLink} {
-      display: block;
+    ${CardWrapper} {
+      width: 250px;
 
-      &:not(last-child) {
-        margin-bottom: ${indents.small};
+      ${StyledLink} {
+        display: block;
+
+        &:not(last-child) {
+          margin-bottom: ${indents.small};
+        }
       }
     }
   }
@@ -51,19 +54,23 @@ const MainLayout = ({ children }: Props): ReactElement => {
     <>
       <Header />
       <Wrapper>
-        <CardWrapper bg={colors.pink100}>
-          {spheres.map(({ sphereId, title }: any) => (
-            <StyledLink
-              key={sphereId}
-              to={{
-                pathname: `/sphere/${kebabCase(title)}`,
-                state: { sphereId }
-              }}
-            >
-              {title}
-            </StyledLink>
-          ))}
-        </CardWrapper>
+        <Sidebar>
+          <CardWrapper bg={colors.pink100}>
+            {spheres.map(
+              ({ sphereId, title }: any): ReactElement => (
+                <StyledLink
+                  key={sphereId}
+                  to={{
+                    pathname: `/sphere/${kebabCase(title)}`,
+                    state: { sphereId }
+                  }}
+                >
+                  {title}
+                </StyledLink>
+              )
+            )}
+          </CardWrapper>
+        </Sidebar>
         <Content>{children}</Content>
       </Wrapper>
     </>

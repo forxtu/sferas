@@ -1,15 +1,18 @@
 import React, { useState, useCallback } from 'react';
-import { Input } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons';
 
 // Components
 import Button from 'components/elements/Button';
+import Input from 'components/elements/Input';
 
 // Hooks
 import useAppData from 'features/main/hooks/useAppData';
 
+// Styles
+import { AddGoalWrapper } from 'features/main/components/AddGoal/addGoalStyles';
+
 // Types
-import type { ChangeEvent } from 'react';
+import type { ChangeEvent, ReactElement } from 'react';
 import type {
   Sphere,
   Goal,
@@ -21,7 +24,7 @@ type AddGoal = {
   goalType: GoalType;
 };
 
-const AddGoal = ({ sphere: { sphereId }, goalType }: AddGoal) => {
+const AddGoal = ({ sphere: { sphereId }, goalType }: AddGoal): ReactElement => {
   const { handleAddGoal } = useAppData();
 
   const [isEditView, setIsEditView] = useState(false);
@@ -61,7 +64,7 @@ const AddGoal = ({ sphere: { sphereId }, goalType }: AddGoal) => {
   }, [goal.type, goal.title]);
 
   return isEditView ? (
-    <div>
+    <AddGoalWrapper>
       <Input
         value={goal.title}
         onChange={handleSetGoal}
@@ -69,7 +72,7 @@ const AddGoal = ({ sphere: { sphereId }, goalType }: AddGoal) => {
       />
       <Button onClick={addGoal}>Add goal</Button>
       <Button onClick={handleSetIsEditView}>Cancel</Button>
-    </div>
+    </AddGoalWrapper>
   ) : (
     <Button onClick={handleSetIsEditView} icon={<PlusCircleOutlined />} />
   );

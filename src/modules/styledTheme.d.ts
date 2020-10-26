@@ -14,6 +14,11 @@ declare module 'styled-theme' {
     cardWrapper: {
       borderColor: string;
     };
+    input: {
+      color: string;
+      borderColor: string;
+      backgroundColor: string;
+    },
     link: {
       color: string;
       hoverColor: string;

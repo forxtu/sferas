@@ -23,9 +23,9 @@ const Header = (): ReactElement => {
   return (
     <StyledHeader>
       <Button onClick={handleRedirectToHomePage} icon={<HomeOutlined />} />
-      <Button onClick={toggleTheme} icon={<HighlightOutlined />}>
+      {/* <Button onClick={toggleTheme} icon={<HighlightOutlined />}>
         Change theme
-      </Button>
+      </Button> */}
       <Button onClick={logOut} icon={<PoweroffOutlined />}>
         Log out
       </Button>

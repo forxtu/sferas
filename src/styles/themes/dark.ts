@@ -17,6 +17,11 @@ const dark: Dark = {
   cardWrapper: {
     borderColor: black800
   },
+  input: {
+    color: whiteBasic,
+    borderColor: whiteBasic,
+    backgroundColor: blackBasic
+  },
   link: {
     color: blackBasic,
     hoverColor: redBasic
